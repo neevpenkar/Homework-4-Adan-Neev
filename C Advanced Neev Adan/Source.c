@@ -5,9 +5,6 @@
 #define maxlinesize 1023
 
 int main() {
-	char* buffer[maxlinesize];
-	FILE* text = fopen("studentList.txt", "r");
-	
 	//fgets(buffer, maxlinesize, text);
 	/*while (buffer != NULL) {
 		fgets(buffer, maxlinesize, text);
@@ -15,9 +12,9 @@ int main() {
 		printf("%d\n", countPipes(buffer, maxlinesize));
 	}*/
 	
-	int i = 0;
-	int* test1 = &i; int** test2 = &test1;
-	countStudentsAndCourses("studentList.txt", test2, test1);
-	fclose(text);
+	int number_of_students = 0;
+	int* courses_per_student = NULL;
+
+	countStudentsAndCourses("studentList.txt", &courses_per_student, &number_of_students);
 	return 0;
 }
