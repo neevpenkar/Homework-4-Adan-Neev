@@ -5,16 +5,13 @@
 #define maxlinesize 1023
 
 int main() {
-	//fgets(buffer, maxlinesize, text);
-	/*while (buffer != NULL) {
-		fgets(buffer, maxlinesize, text);
-		printf("%s\n", buffer);
-		printf("%d\n", countPipes(buffer, maxlinesize));
-	}*/
+	/*char string[] = "Sivan|Advanced Topics in C,100|Algorithms,84";
+	char* ptrs[10];
+	strtiktok(string, ptrs);*/
 	
 	int number_of_students = 0;
 	int* courses_per_student = NULL;
 
-	countStudentsAndCourses("studentList.txt", &courses_per_student, &number_of_students);
+	makeStudentArrayFromFile("studentList.txt", &courses_per_student, &number_of_students);
 	return 0;
 }
