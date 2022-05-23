@@ -104,37 +104,58 @@ int strtiktok(const char* line, char** pointers2address) {
 //	
 //}
 char*** makeStudentArrayFromFile(const char* fileName, int** coursesPerStudent, int* numberOfStudents) {
-	
-	char** pointers[20];
+
+	countStudentsAndCourses(fileName, coursesPerStudent, numberOfStudents);
+	const int* const courses = *coursesPerStudent;
+	const int students = *numberOfStudents;
+
+	// 1 Allocation
+	char*** block = (char***)malloc(sizeof(char**) * students);
+
+	// 2 Allocation
+	for (int i = 0; i < students; i++) {
+		block[i] = (char**)malloc(sizeof(char*) * (2 * (courses[i]) + 1));
+	}
 
 	FILE* file = fopen(fileName, "r");
 	char line[maxlinesize];
-	
-	countStudentsAndCourses(fileName, coursesPerStudent, numberOfStudents);
 
 	while (fgets(line, maxlinesize, file)) {
-
-		char* buffer = (char*)malloc(maxlinesize * 1);
-		char* buffer2 = (char*)malloc(maxlinesize * 1);
-		int courses = countPipes(line, maxlinesize), j = 0;
+		int i = 0, j = 0, k = 0;
+		char* buffer = (char*)malloc(sizeof(char) * maxlinesize);
 		strcpy(buffer, line);
-
-		for (int i = 0; i <= courses; i++) {
+		strcat(buffer, "|");
+		
+		while (*buffer) {
+			if (j == courses[i]) break;
+			
 			strtok(buffer, "|");
-			pointers[j] = buffer;
-			j++;
+			block[i][k] = (char*)malloc(sizeof(char) * (strlen(buffer) + 1));
+			strcpy(block[i][k++], buffer);
+			printf("%s\n", buffer);
+			buffer += strlen(buffer) + 1;
 
-			int temp = strlen(buffer);
 			strtok(buffer, ",");
-			pointers[j] = buffer + strlen(buffer) + 1;
+			block[i][k] = (char*)malloc(sizeof(char) * (strlen(buffer) + 1));
+			strcpy(block[i][k++], buffer);
+			buffer += strlen(buffer) + 1;
+			
 			j++;
-			buffer += temp + 1;
 		}
-		printf("%s\n", pointers[j - 1]);
+		i++;
+		/*for (int d = 0; d < j; d++) {
+			printf("%s\n", block[i - 1][d]);
+		}*/
+		/*while (line[i]) {
+			strtok(line, ",");
+
+			printf("%s", line);
+			i += strlen(line) + 1;
+		}*/
 	}
-	
 
 	fclose(file);
+	return block;
 }
 void ffdgd() {
 	//pointers[j] = buffer;
@@ -153,4 +174,25 @@ void ffdgd() {
 		//buffer += strlen(buffer) + 1;
 		//printf("%s\n", (pointers[j - 1]));
 		//free(buffer);
+
+	//strcpy(buffer, line);
+	//int i = 0, j = 0;
+
+	//*(block[j++]) = line;
+	//while (buffer[i] != '\0' && buffer[i] != '\n') {
+	//	if (buffer[i] == '|' || buffer[i] == ',') {
+	//		buffer[i] = '\0';
+	//		*(block)[j++] = buffer + i + 1;
+	//	}
+	//	i++;
+
+	//	// First Allocation
+	///*char*** block = (char**)malloc(*numberOfStudents * sizeof(char**));*/
+	//	char** block[20];
+
+	//	// Child Allocation
+	//	for (int i = 0; i < *numberOfStudents; i++) {
+	//		block[i] = (char**)malloc(sizeof(char*));
+	//		*(block[i]) = (char*)malloc((*coursesPerStudent)[i] * 2 * sizeof(char));
+	//	}
 }
